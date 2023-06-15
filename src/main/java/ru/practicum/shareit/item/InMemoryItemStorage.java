@@ -18,6 +18,7 @@ public class InMemoryItemStorage implements ItemStorage {
     public Long generateIdItem() {
         return counterIdItem++;
     }
+
     @Override
     public Item createItem(Item item, Long ownerId) {
         item.setId(generateIdItem());

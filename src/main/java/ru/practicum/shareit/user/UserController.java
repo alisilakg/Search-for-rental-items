@@ -8,7 +8,6 @@ import ru.practicum.shareit.user.dto.UserDto;
 
 import java.util.List;
 
-import static java.util.stream.Collectors.toList;
 
 /**
  * TODO Sprint add-controllers.

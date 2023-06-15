@@ -12,7 +12,7 @@ public interface ItemStorage {
 
     void deleteItemById(Long id);
 
-    List <Item> getItemsBySearchQuery(String text);
+    List<Item> getItemsBySearchQuery(String text);
 
     List<Item> getItemsByOwner(Long ownerId);
 

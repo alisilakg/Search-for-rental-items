@@ -18,6 +18,7 @@ public class UserService {
         this.userStorage = userStorage;
         this.userMapper = userMapper;
     }
+
     public UserDto createUser(UserDto userDto) {
         return userMapper.toUserDto(userStorage.createUser(userMapper.toUser(userDto)));
     }

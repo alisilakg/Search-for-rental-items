@@ -20,6 +20,7 @@ public class ItemService {
         this.itemStorage = itemStorage;
         this.itemMapper = itemMapper;
     }
+
     public ItemDto createItem(ItemDto itemDto, Long ownerId) {
         return itemMapper.toItemDto(itemStorage.createItem(itemMapper.toItem(itemDto, ownerId), ownerId));
     }

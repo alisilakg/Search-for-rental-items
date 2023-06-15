@@ -46,6 +46,7 @@ public class ItemController {
         log.info("Item added: {}", itemDto);
         return itemService.createItem(itemDto, ownerId);
     }
+    
     @ResponseBody
     @PatchMapping("/{itemId}")
     public ItemDto update(@RequestBody ItemDto itemDto, @PathVariable Long itemId,

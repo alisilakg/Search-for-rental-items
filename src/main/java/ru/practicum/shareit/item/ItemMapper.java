@@ -12,19 +12,16 @@ public class ItemMapper {
                 item.getName(),
                 item.getDescription(),
                 item.getAvailable(),
-                item.getRequestId() != null ? item.getRequestId() : null
-        );
+                item.getRequestId() != null ? item.getRequestId() : null);
     }
-    
+
     public Item toItem(ItemDto itemDto, Long ownerId) {
-        return new Item(
-                itemDto.getId(),
+        return new Item(itemDto.getId(),
                 itemDto.getName(),
                 itemDto.getDescription(),
                 itemDto.getAvailable(),
                 ownerId,
-                itemDto.getRequestId() != null ? itemDto.getRequestId() : null
-        );
+                itemDto.getRequestId() != null ? itemDto.getRequestId() : null);
     }
 
 }
