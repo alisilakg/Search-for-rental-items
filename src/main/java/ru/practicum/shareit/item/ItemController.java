@@ -39,14 +39,14 @@ public class ItemController {
             log.error("Item description empty");
             throw new ValidationException("Описание вещи не может быть пустым.");
         }
-            if (itemDto.getAvailable() == null) {
+        if (itemDto.getAvailable() == null) {
             log.error("Item availability empty");
             throw new ValidationException("Доступность вещи не может быть пустой.");
         }
         log.info("Item added: {}", itemDto);
         return itemService.createItem(itemDto, ownerId);
     }
-    
+
     @ResponseBody
     @PatchMapping("/{itemId}")
     public ItemDto update(@RequestBody ItemDto itemDto, @PathVariable Long itemId,
