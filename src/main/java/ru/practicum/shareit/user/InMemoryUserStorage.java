@@ -52,7 +52,7 @@ public class InMemoryUserStorage implements UserStorage {
             throw new NotFoundException(String.format("Пользователя с id %d нет.", user.getId()));
         }
         for (User u : users.values()) {
-            if (u.getEmail().equals(user.getEmail()) && u.getId() != user.getId()) {
+            if (u.getEmail().equals(user.getEmail()) && !(u.getId().equals(user.getId()))) {
                 throw new EmailExistException("Пользователь с таким email уже зарегестрирован");
             }
         }
