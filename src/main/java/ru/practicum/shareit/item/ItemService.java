@@ -9,24 +9,24 @@ import ru.practicum.shareit.item.model.Item;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
+import static ru.practicum.shareit.item.ItemMapper.toItem;
+import static ru.practicum.shareit.item.ItemMapper.toItemDto;
 
 @Service
 public class ItemService {
     private final ItemStorage itemStorage;
-    private final ItemMapper itemMapper;
 
     @Autowired
-    public ItemService(ItemStorage itemStorage, ItemMapper itemMapper) {
+    public ItemService(ItemStorage itemStorage) {
         this.itemStorage = itemStorage;
-        this.itemMapper = itemMapper;
     }
 
     public ItemDto createItem(ItemDto itemDto, Long ownerId) {
-        return itemMapper.toItemDto(itemStorage.createItem(itemMapper.toItem(itemDto, ownerId), ownerId));
+        return toItemDto(itemStorage.createItem(toItem(itemDto, ownerId), ownerId));
     }
 
     public ItemDto getItemById(Long id) {
-        return itemMapper.toItemDto(itemStorage.getItemById(id));
+        return toItemDto(itemStorage.getItemById(id));
     }
 
     public void deleteItemById(Long id) {
@@ -36,13 +36,13 @@ public class ItemService {
     public List<ItemDto> getItemsBySearchQuery(String text) {
         text = text.toLowerCase();
         return itemStorage.getItemsBySearchQuery(text).stream()
-                .map(itemMapper::toItemDto)
+                .map(ItemMapper::toItemDto)
                 .collect(toList());
     }
 
     public List<ItemDto> getItemsByOwner(Long ownerId) {
         return itemStorage.getItemsByOwner(ownerId).stream()
-                .map(itemMapper::toItemDto)
+                .map(ItemMapper::toItemDto)
                 .collect(toList());
     }
 
@@ -54,7 +54,7 @@ public class ItemService {
         if (!oldItem.getOwnerId().equals(ownerId)) {
             throw new NotFoundException("У пользователя нет такой вещи!");
         }
-        return itemMapper.toItemDto(itemStorage.updateItem(itemMapper.toItem(itemDto, ownerId)));
+        return toItemDto(itemStorage.updateItem(toItem(itemDto, ownerId)));
     }
 }
 

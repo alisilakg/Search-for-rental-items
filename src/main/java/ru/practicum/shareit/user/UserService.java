@@ -7,37 +7,37 @@ import ru.practicum.shareit.user.dto.UserDto;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
+import static ru.practicum.shareit.user.UserMapper.toUser;
+import static ru.practicum.shareit.user.UserMapper.toUserDto;
 
 @Service
 public class UserService {
     private final UserStorage userStorage;
-    private final UserMapper userMapper;
 
     @Autowired
-    public UserService(UserStorage userStorage, UserMapper userMapper) {
+    public UserService(UserStorage userStorage) {
         this.userStorage = userStorage;
-        this.userMapper = userMapper;
     }
 
     public UserDto createUser(UserDto userDto) {
-        return userMapper.toUserDto(userStorage.createUser(userMapper.toUser(userDto)));
+        return toUserDto(userStorage.createUser(toUser(userDto)));
     }
 
     public List<UserDto> getListAllUsers() {
         return userStorage.getListAllUsers().stream()
-                .map(userMapper::toUserDto)
+                .map(UserMapper::toUserDto)
                 .collect(toList());
     }
 
     public UserDto getUserById(Long id) {
-        return userMapper.toUserDto(userStorage.getUserById(id));
+        return toUserDto(userStorage.getUserById(id));
     }
 
     public UserDto updateUser(Long id, UserDto userDto) {
         if (userDto.getId() == null) {
             userDto.setId(id);
         }
-        return userMapper.toUserDto(userStorage.updateUser(userMapper.toUser(userDto)));
+        return toUserDto(userStorage.updateUser(toUser(userDto)));
     }
 
     public void deleteUserById(Long id) {
