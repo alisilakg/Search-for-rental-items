@@ -3,7 +3,6 @@ package ru.practicum.shareit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.booking.BookingServiceImpl;
-import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.item.ItemService;
 import ru.practicum.shareit.user.UserService;
 
@@ -39,8 +38,5 @@ public class CheckService {
         return itemService.getItemsByOwner(userId).stream()
                 .anyMatch(i -> i.getId().equals(itemId));
     }
-//
-//    public Booking getBookingWithUserBookedItem(Long itemId, Long userId) {
-//        return bookingService.getBookingWithUserBookedItem(itemId, userId);
-//    }
+
 }

@@ -15,20 +15,20 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="items")
+@Table(name = "items")
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name="item_name", nullable = false)
+    @Column(name = "item_name", nullable = false)
     private String name;
-    @Column(name="item_description")
+    @Column(name = "item_description")
     private String description;
-    @Column(name="item_available")
+    @Column(name = "item_available")
     private Boolean available;
     @ManyToOne()
     @JoinColumn(name = "owner_id", referencedColumnName = "id")
     private User owner;
-    @Column(name="request_id")
+    @Column(name = "request_id")
     private Long requestId;
 }

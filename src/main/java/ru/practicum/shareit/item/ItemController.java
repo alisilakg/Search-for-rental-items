@@ -57,6 +57,7 @@ public class ItemController {
         log.info("Получен GET-запрос к эндпоинту: '/items' на получение вещи с ID={}", itemId);
         return itemService.getItemById(itemId, userId);
     }
+
     @DeleteMapping("/{id}")
     public void deleteItemById(@PathVariable Long id) {
         log.info("Item deleted. Id: {}", id);
