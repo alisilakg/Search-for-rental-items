@@ -18,12 +18,10 @@ import java.util.List;
 @RequestMapping(path = "/users")
 public class UserController {
     private final UserService userService;
-    private final UserMapper userMapper;
 
     @Autowired
-    public UserController(UserService userService, UserMapper userMapper) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.userMapper = userMapper;
     }
 
     @PostMapping
@@ -37,7 +35,6 @@ public class UserController {
             log.error("User email does not contain the symbol @");
             throw new ValidationException("Адрес электронной почты должен содержать символ @.");
         }
-        log.info("User added: {}", userDto);
         return userService.createUser(userDto);
     }
 
