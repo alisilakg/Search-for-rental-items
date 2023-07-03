@@ -38,7 +38,7 @@ public class BookingServiceImpl implements BookingService {
     public BookingDto create(BookingInputDto bookingInputDto, Long bookerId) {
         checker.isExistUser(bookerId);
 
-        if (!checker.isAvailableItem(bookingInputDto.getItemId())) {
+        if (!checker.isAvailableItem(bookingInputDto)) {
             throw new ValidationException("Вещь с ID=" + bookingInputDto.getItemId() +
                     " недоступна для бронирования!");
         }
@@ -142,24 +142,24 @@ public class BookingServiceImpl implements BookingService {
         Sort sortByStartDesc = Sort.by(Sort.Direction.DESC, "start");
         switch (state) {
             case "ALL":
-                bookings = bookingRepository.findByItem_OwnerId(userId, sortByStartDesc);
+                bookings = bookingRepository.findByItemOwnerId(userId, sortByStartDesc);
                 break;
             case "CURRENT":
-                bookings = bookingRepository.findByItem_OwnerIdAndStartIsBeforeAndEndIsAfter(userId, LocalDateTime.now(),
+                bookings = bookingRepository.findByItemOwnerIdAndStartIsBeforeAndEndIsAfter(userId, LocalDateTime.now(),
                         LocalDateTime.now(), sortByStartDesc);
                 break;
             case "PAST":
-                bookings = bookingRepository.findByItem_OwnerIdAndEndIsBefore(userId, LocalDateTime.now(), sortByStartDesc);
+                bookings = bookingRepository.findByItemOwnerIdAndEndIsBefore(userId, LocalDateTime.now(), sortByStartDesc);
                 break;
             case "FUTURE":
-                bookings = bookingRepository.findByItem_OwnerIdAndStartIsAfter(userId, LocalDateTime.now(),
+                bookings = bookingRepository.findByItemOwnerIdAndStartIsAfter(userId, LocalDateTime.now(),
                         sortByStartDesc);
                 break;
             case "WAITING":
-                bookings = bookingRepository.findByItem_OwnerIdAndStatus(userId, Status.WAITING, sortByStartDesc);
+                bookings = bookingRepository.findByItemOwnerIdAndStatus(userId, Status.WAITING, sortByStartDesc);
                 break;
             case "REJECTED":
-                bookings = bookingRepository.findByItem_OwnerIdAndStatus(userId, Status.REJECTED, sortByStartDesc);
+                bookings = bookingRepository.findByItemOwnerIdAndStatus(userId, Status.REJECTED, sortByStartDesc);
                 break;
             default:
                 throw new ValidationException("Unknown state: " + state);
@@ -171,19 +171,19 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public BookingTimeDto getLastBooking(Long itemId) {
-        return bookingMapper.toBookingTimeDto(bookingRepository.findFirstByItem_IdAndStartBeforeAndStatusOrderByStartDesc(itemId,
+        return bookingMapper.toBookingTimeDto(bookingRepository.findFirstByItemIdAndStartBeforeAndStatusOrderByStartDesc(itemId,
                 LocalDateTime.now(), Status.APPROVED));
     }
 
     @Override
     public BookingTimeDto getNextBooking(Long itemId) {
-        return bookingMapper.toBookingTimeDto(bookingRepository.findFirstByItem_IdAndStartAfterAndStatusOrderByStartAsc(itemId,
+        return bookingMapper.toBookingTimeDto(bookingRepository.findFirstByItemIdAndStartAfterAndStatusOrderByStartAsc(itemId,
                 LocalDateTime.now(), Status.APPROVED));
     }
 
     @Override
     public Booking getBookingWithUserBookedItem(Long itemId, Long userId) {
-        return bookingRepository.findFirstByItem_IdAndBooker_IdAndEndIsBeforeAndStatus(itemId,
+        return bookingRepository.findFirstByItemIdAndBookerIdAndEndIsBeforeAndStatus(itemId,
                 userId, LocalDateTime.now(), Status.APPROVED);
     }
 }

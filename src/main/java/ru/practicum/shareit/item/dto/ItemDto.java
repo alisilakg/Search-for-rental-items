@@ -6,9 +6,6 @@ import ru.practicum.shareit.booking.dto.BookingTimeDto;
 
 import java.util.List;
 
-/**
- * TODO Sprint add-controllers.
- */
 @Data
 @AllArgsConstructor
 public class ItemDto {

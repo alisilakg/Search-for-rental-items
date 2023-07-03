@@ -2,7 +2,7 @@ package ru.practicum.shareit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.practicum.shareit.booking.BookingServiceImpl;
+import ru.practicum.shareit.booking.dto.BookingInputDto;
 import ru.practicum.shareit.item.ItemService;
 import ru.practicum.shareit.user.UserService;
 
@@ -10,16 +10,13 @@ import ru.practicum.shareit.user.UserService;
 
 @Service
 public class CheckService {
-    private UserService userService;
-    private ItemService itemService;
-    private BookingServiceImpl bookingService;
+    private final UserService userService;
+    private final ItemService itemService;
 
     @Autowired
-    public CheckService(UserService userService, ItemService itemService,
-                                   BookingServiceImpl bookingService) {
+    public CheckService(UserService userService, ItemService itemService) {
         this.userService = userService;
         this.itemService = itemService;
-        this.bookingService = bookingService;
     }
 
     public boolean isExistUser(Long userId) {
@@ -30,8 +27,9 @@ public class CheckService {
         return exist;
     }
 
-    public boolean isAvailableItem(Long itemId) {
-        return itemService.findItemById(itemId).getAvailable();
+    public boolean isAvailableItem(BookingInputDto bookingInputDto) {
+
+        return itemService.findItemById(bookingInputDto.getItemId()).getAvailable();
     }
 
     public boolean isItemOwner(Long itemId, Long userId) {
