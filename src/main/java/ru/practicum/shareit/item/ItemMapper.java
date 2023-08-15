@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.practicum.shareit.booking.BookingService;
 import ru.practicum.shareit.item.dto.CommentDto;
+import ru.practicum.shareit.item.dto.ItemAnswerRequestDto;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.model.Item;
@@ -66,6 +67,16 @@ public class ItemMapper {
                 comment.getItem(),
                 comment.getAuthor().getName(),
                 comment.getCreated());
+    }
+
+    public ItemAnswerRequestDto toItemAnswerRequestDto(Item item) {
+        return new ItemAnswerRequestDto(
+                item.getId(),
+                item.getName(),
+                item.getDescription(),
+                item.getAvailable(),
+                item.getRequestId()
+        );
     }
 
 }

@@ -60,7 +60,7 @@ public class BookingMapper {
                 bookingInputDto.getStart(),
                 bookingInputDto.getEnd(),
                 itemService.findItemById(bookingInputDto.getItemId()),
-                userService.findUserById(bookerId),
+                userMapper.toUser(userService.getUserById(bookerId)),
                 Status.WAITING
         );
     }
