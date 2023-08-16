@@ -66,6 +66,7 @@ public class UserServiceImpl implements UserService {
         updateFields(user, userToUpdate);
         return userMapper.toUserDto(userRepository.save(user));
     }
+
     private void updateFields(User user, UserDto userToUpdate) {
         if (userToUpdate.getName() != null) {
             user.setName(userToUpdate.getName());
@@ -86,5 +87,4 @@ public class UserServiceImpl implements UserService {
     public void deleteUserById(Long id) {
         userRepository.deleteById(id);
     }
-
 }

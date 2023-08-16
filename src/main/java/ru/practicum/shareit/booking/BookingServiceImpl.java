@@ -185,5 +185,5 @@ public class BookingServiceImpl implements BookingService {
         return bookingRepository.findFirstByItemIdAndBookerIdAndEndIsBeforeAndStatus(itemId,
                 userId, LocalDateTime.now(), Status.APPROVED);
     }
-    
+
 }
