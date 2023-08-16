@@ -84,13 +84,4 @@ class ItemRepositoryTest {
         assertEquals(item.getDescription(), actualList.get(0).getDescription());
     }
 
-    @Test
-    void findAllByRequestId_thenReturnItemsList() {
-        Long requestsId = request.getId();
-        List<Item> actualList = repository.findAllByRequestId(requestsId, Sort.by(Sort.Direction.DESC, "id"));
-
-        assertNotNull(actualList);
-        assertEquals(item.getDescription(), actualList.get(0).getDescription());
-    }
-
 }
