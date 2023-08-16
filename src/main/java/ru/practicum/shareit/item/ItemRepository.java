@@ -20,7 +20,6 @@ public interface ItemRepository extends JpaRepository<Item, Long>, PagingAndSort
             " and i.available = true")
     List<Item> getItemsBySearchQuery(@Param("search") String text, Pageable page);
 
-    List<Item> findByRequestId(Long requestId);
     List<Item> findAllByRequestId(Long requestId, Sort sort);
 
 }

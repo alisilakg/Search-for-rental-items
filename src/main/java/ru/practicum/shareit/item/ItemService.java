@@ -13,6 +13,7 @@ public interface ItemService {
     ItemDto createItem(ItemDto itemDto, Long ownerId);
 
     List<ItemDto> getItemsByOwner(Long ownerId, int from, int size);
+
     void deleteItemById(Long itemId, Long userId);
 
     List<ItemDto> getItemsBySearchQuery(String text, int from, int size);

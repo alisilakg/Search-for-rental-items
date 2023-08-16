@@ -26,17 +26,20 @@ public class ItemRequestController {
     public ItemRequestController(ItemRequestService itemRequestService) {
         this.itemRequestService = itemRequestService;
     }
+
     @ResponseBody
     @PostMapping
     public ResponseEntity<ItemRequestDto> create(@Valid @RequestBody ItemRequestDto itemRequestInputDto, @RequestHeader(OWNER) Long ownerId) {
         log.info("POST request received: {}", itemRequestInputDto);
         return ResponseEntity.ok(itemRequestService.createItemRequest(itemRequestInputDto, ownerId, LocalDateTime.now()));
     }
+
     @GetMapping
     public ResponseEntity<List<ItemRequestDto>> getItemRequestsByRequester(@RequestHeader(OWNER) Long userId) {
         log.info("Получен GET-запрос к эндпоинту: '/requests' на получение списка собственных запросов пользователя с ID={}", userId);
         return ResponseEntity.ok(itemRequestService.getItemRequestsByRequesterId(userId));
     }
+
     @GetMapping("/all")
     public ResponseEntity<List<ItemRequestDto>> getItemRequests(@RequestHeader(OWNER) Long userId,
                                                 @RequestParam(defaultValue = "0") @Min(value = 0,
@@ -46,6 +49,7 @@ public class ItemRequestController {
         log.info("Получен GET-запрос к эндпоинту: '/requests' на получение списка всех запросов на вещи");
         return ResponseEntity.ok(itemRequestService.getItemRequests(userId, from, size));
     }
+
     @GetMapping("/{requestId}")
     public ResponseEntity<ItemRequestDto> getItemRequestById(@PathVariable Long requestId, @RequestHeader(OWNER) Long userId) {
         log.info("Получен GET-запрос к эндпоинту: '/requests' на получение запроса вещи с ID={}", requestId);

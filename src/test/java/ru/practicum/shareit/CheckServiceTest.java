@@ -45,6 +45,7 @@ public class CheckServiceTest {
 
     private BookingTimeDto bookingTimeDto;
     private ItemDto itemToSave;
+
     @BeforeEach
     void setup() {
         booker = new User();

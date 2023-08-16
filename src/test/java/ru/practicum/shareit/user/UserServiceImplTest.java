@@ -155,7 +155,8 @@ class UserServiceImplTest {
                 NotFoundException.class,
                 () -> userService.updateUser(userIdNotFound, userToUpdate));
 
-        assertEquals(error, exception.getMessage());}
+        assertEquals(error, exception.getMessage());
+    }
 
     @Test
     void updateUser_whenUserFoundAndEmailAlreadyExist_thenReturnedEmailExistExceptionThrown() {

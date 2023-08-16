@@ -84,6 +84,7 @@ class UserControllerTest {
 
         verify(userService, times(1)).createUser(any());
     }
+
     @Test
     void findAllUsers() throws Exception {
         when(userService.getListAllUsers())

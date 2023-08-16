@@ -480,6 +480,7 @@ class BookingServiceImplTest {
 
         assertEquals(error, exception.getMessage());
     }
+
     @Test
     void getBookingsOwner_whenStatusAll_thenReturnedOneBooking() {
         int from = 0;

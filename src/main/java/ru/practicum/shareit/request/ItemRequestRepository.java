@@ -7,8 +7,8 @@ import ru.practicum.shareit.request.model.ItemRequest;
 
 import java.util.List;
 
-public interface ItemRequestRepository extends JpaRepository<ItemRequest, Long>,
-        PagingAndSortingRepository<ItemRequest, Long> {
+public interface ItemRequestRepository extends JpaRepository<ItemRequest, Long>, PagingAndSortingRepository<ItemRequest, Long> {
     List<ItemRequest> findByRequesterId(Long requesterId);
+
     List<ItemRequest> findByRequesterIdNot(Long ownerId, Pageable pageable);
 }

@@ -48,6 +48,7 @@ public class ItemRequestServiceImpl implements ItemRequestService {
             throw new ValidationException("Описание запроса вещи не может быть пустым.");
         }
     }
+
     @Override
     public List<ItemRequestDto> getItemRequestsByRequesterId(Long userId) {
         checker.isExistUser(userId);

@@ -208,6 +208,7 @@ class ItemRequestServiceImplTest {
 
         assertEquals(error, exception.getMessage());
     }
+    
     @Test
     void getItemRequestById_whenRequestFound_thenReturnedItemRequest() {
         long userId = 0L;
