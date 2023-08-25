@@ -29,14 +29,6 @@ public class BookingController {
                              @RequestHeader(USER_ID) Long bookerId) {
         log.info("Получен POST-запрос к эндпоинту: '/bookings' " +
                 "на создание бронирования от пользователя с ID={}", bookerId);
-//        if (bookingInputDto.getEnd().isBefore(bookingInputDto.getStart())) {
-//            log.error("End of booking is before start");
-//            throw new ValidationException("Время окончания броннирования не может быть раньше времени начала.");
-//        }
-//        if (bookingInputDto.getEnd().isEqual(bookingInputDto.getStart())) {
-//            log.error("End of booking is equals start");
-//            throw new ValidationException("Время окончания броннирования не может быть равно времени начала.");
-//        }
         return bookingService.create(bookingInputDto, bookerId);
     }
 
