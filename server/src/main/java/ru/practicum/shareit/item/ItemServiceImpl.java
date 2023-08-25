@@ -30,7 +30,7 @@ public class ItemServiceImpl implements ItemService {
     private final ItemMapper itemMapper;
     private final CommentRepository commentRepository;
     private final ItemRepository itemRepository;
-    private final BookingService bookingService;
+    private final  BookingService bookingService;
     private final CheckService checker;
 
     @Autowired

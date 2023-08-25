@@ -6,7 +6,11 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.dto.BookingInputDto;
+import ru.practicum.shareit.exception.ValidationException;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Positive;
 import java.util.List;
 
 @RestController
@@ -24,10 +28,18 @@ public class BookingController {
 
     @ResponseBody
     @PostMapping
-    public BookingDto create(@RequestBody BookingInputDto bookingInputDto,
+    public BookingDto create(@Valid @RequestBody BookingInputDto bookingInputDto,
                              @RequestHeader(USER_ID) Long bookerId) {
         log.info("Получен POST-запрос к эндпоинту: '/bookings' " +
                 "на создание бронирования от пользователя с ID={}", bookerId);
+        if (bookingInputDto.getEnd().isBefore(bookingInputDto.getStart())) {
+            log.error("End of booking is before start");
+            throw new ValidationException("Время окончания броннирования не может быть раньше времени начала.");
+        }
+        if (bookingInputDto.getEnd().isEqual(bookingInputDto.getStart())) {
+            log.error("End of booking is equals start");
+            throw new ValidationException("Время окончания броннирования не может быть равно времени начала.");
+        }
         return bookingService.create(bookingInputDto, bookerId);
     }
 
@@ -46,20 +58,24 @@ public class BookingController {
     }
 
     @GetMapping
-    public List<BookingDto> getBookings(@RequestHeader("X-Sharer-User-Id") long userId,
-                                        @RequestParam String state,
-                                        @RequestParam int from,
-                                        @RequestParam int size) {
+    public List<BookingDto> getBookings(@RequestParam(name = "state", defaultValue = "ALL") String state,
+                                        @RequestHeader(USER_ID) Long userId,
+                                        @RequestParam(defaultValue = "0") @Min(value = 0,
+                                                message = "Индекс первого элемента не может быть отрицательным") int from,
+                                        @RequestParam(defaultValue = "10") @Positive(
+                                                message = "Количество элементов для отображения должно быть положительным") int size) {
         log.info("Получен GET-запрос к эндпоинту: '/bookings' на получение " +
                 "списка всех бронирований пользователя с ID={} с параметром STATE={}", userId, state);
         return bookingService.getBookings(state, userId, from, size);
     }
 
     @GetMapping("/owner")
-    public List<BookingDto> getBookingsOwner(@RequestHeader("X-Sharer-User-Id") long userId,
-                                             @RequestParam String state,
-                                             @RequestParam int from,
-                                             @RequestParam int size) {
+    public List<BookingDto> getBookingsOwner(@RequestParam(name = "state", defaultValue = "ALL") String state,
+                                             @RequestHeader(USER_ID) Long userId,
+                                             @RequestParam(defaultValue = "0") @Min(value = 0,
+                                                     message = "Индекс первого элемента не может быть отрицательным") int from,
+                                             @RequestParam(defaultValue = "10") @Positive(
+                                                     message = "Количество элементов для отображения должно быть положительным") int size) {
         log.info("Получен GET-запрос к эндпоинту: '/bookings/owner' на получение " +
                 "списка всех бронирований вещей пользователя с ID={} с параметром STATE={}", userId, state);
         return bookingService.getBookingsOwner(state, userId, from, size);
