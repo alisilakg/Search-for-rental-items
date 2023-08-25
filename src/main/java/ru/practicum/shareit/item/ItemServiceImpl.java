@@ -1,7 +1,9 @@
 package ru.practicum.shareit.item;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.CheckService;
@@ -10,6 +12,7 @@ import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.exception.ValidationException;
 import ru.practicum.shareit.item.dto.CommentDto;
+import ru.practicum.shareit.item.dto.ItemAnswerRequestDto;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.model.Item;
@@ -22,6 +25,7 @@ import java.util.List;
 import static java.util.stream.Collectors.toList;
 
 @Service
+@Slf4j
 public class ItemServiceImpl implements ItemService {
     private final ItemMapper itemMapper;
     private final CommentRepository commentRepository;
@@ -42,9 +46,25 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public ItemDto createItem(ItemDto itemDto, Long ownerId) {
+        isItemValid(itemDto);
         checker.isExistUser(ownerId);
         Item item = itemRepository.save(itemMapper.toItem(itemDto, ownerId));
         return itemMapper.toItemDto(item);
+    }
+
+    void isItemValid(ItemDto itemDto) {
+        if (itemDto.getName() == null || itemDto.getName().isBlank()) {
+            log.error("Item name empty");
+            throw new ValidationException("Название вещи не может быть пустым.");
+        }
+        if (itemDto.getDescription() == null || itemDto.getDescription().isBlank()) {
+            log.error("Item description empty");
+            throw new ValidationException("Описание вещи не может быть пустым.");
+        }
+        if (itemDto.getAvailable() == null) {
+            log.error("Item availability empty");
+            throw new ValidationException("Доступность вещи не может быть пустой.");
+        }
     }
 
     @Override
@@ -52,7 +72,7 @@ public class ItemServiceImpl implements ItemService {
         ItemDto itemDto;
         Item item = itemRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Вещь с ID=" + id + " не найдена!"));
-        if (userId.equals(item.getOwner().getId())) {
+        if (checker.isItemOwner(id, userId)) {
             itemDto = itemMapper.toItemDtoForOwner(item);
         } else {
             itemDto = itemMapper.toItemDto(item);
@@ -61,25 +81,32 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public void deleteItemById(Long id) {
-        itemRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Вещь с ID=" + id + " не найдена!"));
-        itemRepository.deleteById(id);
+    public void deleteItemById(Long id, Long userId) {
+        if (checker.isItemOwner(id, userId)) {
+            itemRepository.findById(id)
+                    .orElseThrow(() -> new NotFoundException("Вещь с ID=" + id + " не найдена!"));
+            itemRepository.deleteById(id);
+        } else {
+            throw new ValidationException("Удалить вещь может только владелец!");
+        }
     }
 
     @Override
-    public List<ItemDto> getItemsBySearchQuery(String text) {
+    public List<ItemDto> getItemsBySearchQuery(String text, int from, int size) {
+        PageRequest page = PageRequest.of(from / size, size);
         if ((text != null) && (!text.isEmpty()) && (!text.isBlank())) {
             text = text.toLowerCase();
-            return itemRepository.getItemsBySearchQuery(text).stream()
+            return itemRepository.getItemsBySearchQuery(text, page).stream()
                     .map(itemMapper::toItemDto)
                     .collect(toList());
         } else return new ArrayList<>();
     }
 
     @Override
-    public List<ItemDto> getItemsByOwner(Long ownerId) {
-        return itemRepository.findByOwnerId(ownerId).stream()
+    public List<ItemDto> getItemsByOwner(Long ownerId, int from, int size) {
+        checker.isExistUser(ownerId);
+        PageRequest page = PageRequest.of(from / size, size);
+        return itemRepository.findByOwnerId(ownerId, page).stream()
                 .map(itemMapper::toItemDtoForOwner)
                 .sorted(Comparator.comparing(ItemDto::getId))
                 .collect(toList());
@@ -111,21 +138,25 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public CommentDto createComment(CommentDto commentDto, Long itemId, Long userId) {
         Comment comment = new Comment();
-        Booking booking = bookingService.getBookingWithUserBookedItem(itemId, userId);
-        if (booking != null) {
-            comment.setCreated(LocalDateTime.now());
-            comment.setItem(booking.getItem());
-            comment.setAuthor(booking.getBooker());
-            comment.setText(commentDto.getText());
-        } else {
-            throw new ValidationException("Данный пользователь вещь не бронировал!");
-        }
+        Booking booking = checkAuthor(userId, itemId);
+        comment.setCreated(LocalDateTime.now());
+        comment.setItem(booking.getItem());
+        comment.setAuthor(booking.getBooker());
+        comment.setText(commentDto.getText());
         return itemMapper.toCommentDto(commentRepository.save(comment));
+    }
+
+    private Booking checkAuthor(long userId, long itemId) {
+        Booking booking = bookingService.getBookingWithUserBookedItem(itemId, userId);
+        if (booking == null) {
+            throw new ValidationException(String.format("Пользователь с id %s не арендовал вещь с id %s", userId, itemId));
+        }
+        return booking;
     }
 
     @Override
     public List<CommentDto> getCommentsByItemId(Long itemId) {
-        return commentRepository.findAllByItem_Id(itemId,
+        return commentRepository.findByItemId(itemId,
                         Sort.by(Sort.Direction.DESC, "created")).stream()
                 .map(itemMapper::toCommentDto)
                 .collect(toList());
@@ -137,6 +168,13 @@ public class ItemServiceImpl implements ItemService {
                 .orElseThrow(() -> new NotFoundException("Вещь с ID=" + id + " не найдена!"));
     }
 
+    @Override
+    public List<ItemAnswerRequestDto> getItemsByRequestId(Long requestId) {
+        return itemRepository.findAllByRequestId(requestId,
+                        Sort.by(Sort.Direction.DESC, "id")).stream()
+                .map(itemMapper::toItemAnswerRequestDto)
+                .collect(toList());
+    }
 }
 
 
