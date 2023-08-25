@@ -1,7 +1,12 @@
 package ru.practicum.shareit.exception;
 
+import lombok.Getter;
+
+@Getter
 public class ValidationException extends RuntimeException {
-    public ValidationException(String message) {
-        super(message);
+    private final String parameter;
+
+    public ValidationException(String parameter) {
+        this.parameter = parameter;
     }
 }

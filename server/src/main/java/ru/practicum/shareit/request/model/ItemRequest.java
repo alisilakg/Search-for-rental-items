@@ -12,14 +12,14 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "requests")
+@Table(name = "requests", schema = "public")
 public class ItemRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String description;
-    @ManyToOne()
-    @JoinColumn(name = "requester_id", referencedColumnName = "id")
-    private User requester;
-    private LocalDateTime created;
+    Long id;
+    String description;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "requestor_id")
+    User requestor;
+    LocalDateTime created;
 }
