@@ -16,11 +16,8 @@ public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "item_name", nullable = false)
     private String name;
-    @Column(name = "item_description")
     private String description;
-    @Column(name = "item_available")
     private Boolean available;
     @ManyToOne()
     @JoinColumn(name = "owner_id", referencedColumnName = "id")
