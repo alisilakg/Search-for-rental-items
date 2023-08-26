@@ -27,7 +27,7 @@ public class ItemRequestController {
     @ResponseBody
     @PostMapping
     public ResponseEntity<ItemRequestDto> create(@RequestBody ItemRequestDto itemRequestInputDto, @RequestHeader(OWNER) Long ownerId) {
-        log.info("POST request received: {}", itemRequestInputDto);
+        log.info("Получен POST-запрос к эндпоинту: '/requests' на создание запроса вещи пользователем с ID={}", ownerId);
         return ResponseEntity.ok(itemRequestService.createItemRequest(itemRequestInputDto, ownerId, LocalDateTime.now()));
     }
 
@@ -41,7 +41,7 @@ public class ItemRequestController {
     public ResponseEntity<List<ItemRequestDto>> getItemRequests(@RequestHeader(OWNER) Long userId,
                                                 @RequestParam(defaultValue = "0") int from,
                                                 @RequestParam(defaultValue = "10") int size) {
-        log.info("Получен GET-запрос к эндпоинту: '/requests' на получение списка всех запросов на вещи");
+        log.info("Получен GET-запрос к эндпоинту: '/requests/all' на получение списка всех запросов на вещи");
         return ResponseEntity.ok(itemRequestService.getItemRequests(userId, from, size));
     }
 

@@ -21,7 +21,7 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<UserDto> create(@RequestBody UserDto userDto) {
-        log.info("POST request received: {}", userDto);
+        log.info("Получен POST-запрос к эндпоинту: '/users' на создание пользователя");
         return ResponseEntity.ok(userService.createUser(userDto));
     }
 
@@ -45,7 +45,7 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     public void deleteUserById(@PathVariable Long id) {
-        log.info("User deleted. Id: {}", id);
+        log.info("Получен DELETE-запрос к эндпоинту: '/users/{id}' на удаление пользователя с ID={}", id);
         userService.deleteUserById(id);
     }
 

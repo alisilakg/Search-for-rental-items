@@ -9,7 +9,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.user.dto.UserRequestDto;
 
-import javax.validation.Valid;
+import static ru.practicum.shareit.validation.ValidationGroups.Create;
+import static ru.practicum.shareit.validation.ValidationGroups.Update;
 
 @Controller
 @RequestMapping("/users")
@@ -18,73 +19,35 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class UserController {
     private final UserClient userClient;
-//    private final UserService userService;
-//
-//    @Autowired
-//    public UserController(UserService userService) {
-//        this.userService = userService;
-//    }
-
-//    @PostMapping
-//    public ResponseEntity<UserDto> create(@RequestBody UserDto userDto) {
-//        log.info("POST request received: {}", userDto);
-//        return ResponseEntity.ok(userService.createUser(userDto));
-//    }
 
     @PostMapping
-    public ResponseEntity<Object> createUser(@RequestBody @Valid UserRequestDto requestDto) {
-        log.info("Creating user");
+    public ResponseEntity<Object> createUser(@RequestBody @Validated(Create.class) UserRequestDto requestDto) {
+        log.info("Получен POST-запрос к эндпоинту: '/users' на создание пользователя");
         return userClient.createUser(requestDto);
     }
 
-//    @PatchMapping("/{id}")
-//    public ResponseEntity<UserDto> update(@RequestBody UserDto userDto, @PathVariable("id") Long id) {
-//        log.info("Получен PATCH-запрос к эндпоинту: '/users' на обновление пользователя с ID={}", id);
-//        return ResponseEntity.ok(userService.updateUser(id, userDto));
-//    }
-
     @PatchMapping("/{id}")
-    public ResponseEntity<Object> updateUser(@RequestBody UserRequestDto requestDto,
+    public ResponseEntity<Object> updateUser(@RequestBody @Validated(Update.class) UserRequestDto requestDto,
                                              @PathVariable Long id) {
-        log.info("Update user {}", id);
+        log.info("Получен PATCH-запрос к эндпоинту: '/users' на обновление пользователя с ID={}", id);
         return userClient.updateUser(id, requestDto);
     }
 
-//    @GetMapping
-//    public ResponseEntity<List<UserDto>> findAll() {
-//        log.info("Получен GET-запрос к эндпоинту: '/users' на получение всех пользователей");
-//        return ResponseEntity.ok(userService.getListAllUsers());
-//    }
-
-
     @GetMapping
     public ResponseEntity<Object> getUsers() {
-        log.info("Get all users");
+        log.info("Получен GET-запрос к эндпоинту: '/users' на получение всех пользователей");
         return userClient.getUsers();
     }
 
-//    @GetMapping("/{id}")
-//    public ResponseEntity<UserDto> findById(@PathVariable Long id) {
-//        log.info("Получен GET-запрос к эндпоинту: '/users/{id}' на получение пользователя с ID={}", id);
-//        return ResponseEntity.ok(userService.getUserById(id));
-//    }
-
     @GetMapping("/{id}")
     public ResponseEntity<Object> getUser(@PathVariable Long id) {
-        log.info("Get user {}", id);
+        log.info("Получен GET-запрос к эндпоинту: '/users/{id}' на получение пользователя с ID={}", id);
         return userClient.getUser(id);
     }
 
-
-//    @DeleteMapping("/{id}")
-//    public void deleteUserById(@PathVariable Long id) {
-//        log.info("User deleted. Id: {}", id);
-//        userService.deleteUserById(id);
-//    }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteUser(@PathVariable Long id) {
-        log.info("Delete user {}", id);
+        log.info("Получен DELETE-запрос к эндпоинту: '/users/{id}' на удаление пользователя с ID={}", id);
         return userClient.deleteUser(id);
     }
 

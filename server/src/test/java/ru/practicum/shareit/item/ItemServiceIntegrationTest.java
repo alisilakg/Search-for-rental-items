@@ -30,30 +30,6 @@ class ItemServiceIntegrationTest {
     private final EntityManager em;
     private final ItemService itemService;
 
-//    @Test
-//    void createItem() {
-//        User owner = new User(null, "User1", "u@email.com");
-//        em.persist(owner);
-//
-//        Boolean available = true;
-//        Item item = new Item(null, "Item1", "GoodItem", available, owner, null);
-//        em.persist(item);
-//
-//        User booker = new User(null, "Booker", "b@email.com");
-//        em.persist(booker);
-//
-//        ItemDto itemDto = makeItemDto(item.getName(), item.getDescription(), available, 0L, null,
-//                null, null);
-//        ItemDto actualItem = itemService.createItem(itemDto, owner.getId());
-//
-//        assertThat(actualItem.getId(), notNullValue());
-//        assertThat(actualItem.getName(), equalTo(itemDto.getName()));
-//        assertThat(actualItem.getDescription(), equalTo(itemDto.getDescription()));
-//        assertThat(actualItem.getAvailable(), equalTo(itemDto.getAvailable()));
-//        assertThat(actualItem.getLastBooking(), equalTo(itemDto.getLastBooking()));
-//        assertThat(actualItem.getNextBooking(), equalTo(itemDto.getNextBooking()));
-//    }
-
     @Test
     void getItemById() {
         User owner = new User(null, "User1", "u@email.com");
@@ -99,46 +75,6 @@ class ItemServiceIntegrationTest {
 
         assertEquals(error, exception.getMessage());
     }
-
-//    @Test
-//    void getItemsByOwner() {
-//        User owner = new User(null, "User1", "u@email.com");
-//        em.persist(owner);
-//
-//        Boolean available = true;
-//        Item item = new Item(null, "Item1", "GoodItem", available, owner, null);
-//        em.persist(item);
-//
-//        User booker = new User(null, "Booker", "b@email.com");
-//        em.persist(booker);
-//
-//        LocalDateTime startNext = LocalDateTime.now().plusHours(1);
-//        LocalDateTime endNext = LocalDateTime.now().plusHours(2);
-//        Booking bookingNext = new Booking(null, startNext,
-//                endNext, item, booker, Status.APPROVED);
-//        em.persist(bookingNext);
-//        BookingTimeDto bookingTimeDtoNext = makeBookingTimeDto(bookingNext.getId(), bookingNext.getBooker().getId(),
-//                bookingNext.getStart(), bookingNext.getEnd());
-//
-//        LocalDateTime startLast = LocalDateTime.now().minusHours(2);
-//        LocalDateTime endLast = LocalDateTime.now().minusHours(1);
-//        Booking bookingLast = new Booking(null, startLast,
-//                endLast, item, booker, Status.APPROVED);
-//        em.persist(bookingLast);
-//        BookingTimeDto bookingTimeDtoLast = makeBookingTimeDto(bookingLast.getId(), bookingLast.getBooker().getId(),
-//                bookingLast.getStart(), bookingLast.getEnd());
-//
-//        List<ItemDto> actualList = itemService.getItemsByOwner(owner.getId(), 0, 30);
-//
-//        assertEquals(actualList.size(), 1);
-//        assertThat(actualList.get(0).getId(), notNullValue());
-//        assertThat(actualList.get(0).getName(), equalTo(item.getName()));
-//        assertThat(actualList.get(0).getDescription(), equalTo(item.getDescription()));
-//        assertThat(actualList.get(0).getAvailable(), equalTo(item.getAvailable()));
-//        assertThat(actualList.get(0).getLastBooking(), equalTo(bookingTimeDtoLast));
-//        assertThat(actualList.get(0).getNextBooking(), equalTo(bookingTimeDtoNext));
-//    }
-
 
     @Test
     void getItemsBySearchQuery() {

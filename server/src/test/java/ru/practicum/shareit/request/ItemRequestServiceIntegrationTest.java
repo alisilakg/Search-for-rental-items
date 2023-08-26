@@ -29,24 +29,6 @@ public class ItemRequestServiceIntegrationTest {
     private final EntityManager em;
     private final ItemRequestService itemRequestService;
 
-//    @Test
-//    void createItemRequest() {
-//        User requester = new User(null, "User1", "u@email.com");
-//        em.persist(requester);
-//
-//        LocalDateTime created = LocalDateTime.now();
-//
-//        ItemRequestDto itemRequestDto = makeItemRequestDto("description",  requester, created, null);
-//        ItemRequestDto actualItemRequest = itemRequestService.createItemRequest(itemRequestDto, requester.getId(),
-//                created);
-//
-//        assertThat(actualItemRequest.getId(), notNullValue());
-//        assertThat(actualItemRequest.getDescription(), equalTo(itemRequestDto.getDescription()));
-//        assertThat(actualItemRequest.getRequester(), equalTo(requester));
-//        assertThat(actualItemRequest.getCreated(), equalTo(created));
-//        assertThat(actualItemRequest.getItems(), equalTo(new ArrayList<>()));
-//    }
-
     @Test
     void getItemRequestsByRequesterId() {
         User requester = new User(null, "User1", "u@email.com");
