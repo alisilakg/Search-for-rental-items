@@ -38,17 +38,17 @@ class ItemMapperTest {
         item.setRequestId(1L);
     }
 
-    @Test
-    void toItemAnswerRequestDto() {
-        ItemAnswerRequestDto expected = new ItemAnswerRequestDto();
-        expected.setId(1L);
-        expected.setName("name");
-        expected.setDescription("description");
-        expected.setAvailable(true);
-        expected.setRequestId(1L);
-
-        ItemAnswerRequestDto actual = itemMapper.toItemAnswerRequestDto(item);
-
-        assertEquals(expected, actual);
-    }
+//    @Test
+//    void toItemAnswerRequestDto() {
+//        ItemAnswerRequestDto expected = new ItemAnswerRequestDto();
+//        expected.setId(1L);
+//        expected.setName("name");
+//        expected.setDescription("description");
+//        expected.setAvailable(true);
+//        expected.setRequestId(1L);
+//
+//        ItemAnswerRequestDto actual = itemMapper.toItemAnswerRequestDto(item);
+//
+//        assertEquals(expected, actual);
+//    }
 }

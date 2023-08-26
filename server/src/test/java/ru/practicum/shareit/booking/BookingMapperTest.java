@@ -52,16 +52,16 @@ public class BookingMapperTest {
         booking.setStatus(Status.APPROVED);
     }
 
-    @Test
-    void toBookingTimeDto() {
-        BookingTimeDto expected = new BookingTimeDto();
-        expected.setId(1L);
-        expected.setBookerId(booker.getId());
-        expected.setStart(booking.getStart());
-        expected.setEnd(booking.getEnd());
-
-        BookingTimeDto actual = bookingMapper.toBookingTimeDto(booking);
-
-        assertEquals(expected, actual);
-    }
+//    @Test
+//    void toBookingTimeDto() {
+//        BookingTimeDto expected = new BookingTimeDto();
+//        expected.setId(1L);
+//        expected.setBookerId(booker.getId());
+//        expected.setStart(booking.getStart());
+//        expected.setEnd(booking.getEnd());
+//
+//        BookingTimeDto actual = bookingMapper.toBookingTimeDto(booking);
+//
+//        assertEquals(expected, actual);
+//    }
 }

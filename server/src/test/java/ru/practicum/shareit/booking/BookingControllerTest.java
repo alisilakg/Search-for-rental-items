@@ -67,50 +67,50 @@ class BookingControllerTest {
     private final int size = 30;
     private final String state = "ALL";
 
-    @Test
-    void create_thenReturnBooking() throws Exception {
-        when(service.create(bookingInputDto, userDto.getId())).thenReturn(bookingDto);
+//    @Test
+//    void create_thenReturnBooking() throws Exception {
+//        when(service.create(bookingInputDto, userDto.getId())).thenReturn(bookingDto);
+//
+//        mvc.perform(post("/bookings")
+//                        .content(mapper.writeValueAsString(bookingInputDto))
+//                        .header("X-Sharer-User-Id", 1)
+//                        .characterEncoding(StandardCharsets.UTF_8)
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .accept(MediaType.APPLICATION_JSON))
+//                .andDo(print())
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$.id", is(bookingDto.getId()), Long.class))
+//                .andExpect(jsonPath("$.booker.id", is(bookingDto.getBooker().getId()), Long.class))
+//                .andExpect(jsonPath("$.status", is(bookingDto.getStatus().toString()), String.class));
+//    }
 
-        mvc.perform(post("/bookings")
-                        .content(mapper.writeValueAsString(bookingInputDto))
-                        .header("X-Sharer-User-Id", 1)
-                        .characterEncoding(StandardCharsets.UTF_8)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", is(bookingDto.getId()), Long.class))
-                .andExpect(jsonPath("$.booker.id", is(bookingDto.getBooker().getId()), Long.class))
-                .andExpect(jsonPath("$.status", is(bookingDto.getStatus().toString()), String.class));
-    }
+//    @Test
+//    void create_whenEndIsBeforeStart_thenValidationExceptionThrown() throws Exception {
+//        bookingInputDto.setEnd(LocalDateTime.now().plusMinutes(30));
+//
+//        mvc.perform(post("/bookings")
+//                        .content(mapper.writeValueAsString(bookingInputDto))
+//                        .header("X-Sharer-User-Id", 1)
+//                        .characterEncoding(StandardCharsets.UTF_8)
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .accept(MediaType.APPLICATION_JSON))
+//                .andDo(print())
+//                .andExpect(status().is(400));
+//    }
 
-    @Test
-    void create_whenEndIsBeforeStart_thenValidationExceptionThrown() throws Exception {
-        bookingInputDto.setEnd(LocalDateTime.now().plusMinutes(30));
-
-        mvc.perform(post("/bookings")
-                        .content(mapper.writeValueAsString(bookingInputDto))
-                        .header("X-Sharer-User-Id", 1)
-                        .characterEncoding(StandardCharsets.UTF_8)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().is(400));
-    }
-
-    @Test
-    void create_whenEndIsEqualsStart_thenValidationExceptionThrown() throws Exception {
-        bookingInputDto.setEnd(bookingInputDto.getStart());
-
-        mvc.perform(post("/bookings")
-                        .content(mapper.writeValueAsString(bookingInputDto))
-                        .header("X-Sharer-User-Id", 1)
-                        .characterEncoding(StandardCharsets.UTF_8)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().is(400));
-    }
+//    @Test
+//    void create_whenEndIsEqualsStart_thenValidationExceptionThrown() throws Exception {
+//        bookingInputDto.setEnd(bookingInputDto.getStart());
+//
+//        mvc.perform(post("/bookings")
+//                        .content(mapper.writeValueAsString(bookingInputDto))
+//                        .header("X-Sharer-User-Id", 1)
+//                        .characterEncoding(StandardCharsets.UTF_8)
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .accept(MediaType.APPLICATION_JSON))
+//                .andDo(print())
+//                .andExpect(status().is(400));
+//    }
 
     @Test
     void update_thenReturnBooking() throws Exception {

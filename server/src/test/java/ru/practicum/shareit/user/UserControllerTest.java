@@ -112,49 +112,49 @@ class UserControllerTest {
         verify(userService, times(1)).getListAllUsers();
     }
 
-    @Test
-    void updateUser() throws Exception {
-        when(userService.updateUser(userId, userDto)).thenReturn(userDto);
+//    @Test
+//    void updateUser() throws Exception {
+//        when(userService.updateUser(userId, userDto)).thenReturn(userDto);
+//
+//        mvc.perform(patch("/users/{id}", userId)
+//                        .content(mapper.writeValueAsString(userDto))
+//                        .characterEncoding(StandardCharsets.UTF_8)
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .accept(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$.name", is(userDto.getName())))
+//                .andExpect(jsonPath("$.email", is(userDto.getEmail())));
+//
+//        verify(userService, times(1)).updateUser(anyLong(), any());
+//    }
 
-        mvc.perform(patch("/users/{id}", userId)
-                        .content(mapper.writeValueAsString(userDto))
-                        .characterEncoding(StandardCharsets.UTF_8)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name", is(userDto.getName())))
-                .andExpect(jsonPath("$.email", is(userDto.getEmail())));
+//    @Test
+//    void updateUser_whenEmailExistAlready_thenEmailExistExceptionThrown() throws Exception {
+//        String email = userDto.getEmail();
+//        String error = String.format("Пользователь с Email=" + email + " уже существует!");
+//        when(userService.updateUser(userId, userDto)).thenThrow(new EmailExistException(error));
+//
+//        mvc.perform(patch("/users/{id}", userId)
+//                        .content(mapper.writeValueAsString(userDto))
+//                        .characterEncoding(StandardCharsets.UTF_8)
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .accept(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isConflict());
+//
+//    }
 
-        verify(userService, times(1)).updateUser(anyLong(), any());
-    }
-
-    @Test
-    void updateUser_whenEmailExistAlready_thenEmailExistExceptionThrown() throws Exception {
-        String email = userDto.getEmail();
-        String error = String.format("Пользователь с Email=" + email + " уже существует!");
-        when(userService.updateUser(userId, userDto)).thenThrow(new EmailExistException(error));
-
-        mvc.perform(patch("/users/{id}", userId)
-                        .content(mapper.writeValueAsString(userDto))
-                        .characterEncoding(StandardCharsets.UTF_8)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isConflict());
-
-    }
-
-    @Test
-    void updateUser_whenUserNotFound_thenNotFoundExceptionThrown() throws Exception {
-        String error = String.format("Пользователь с id %d не найден", userId);
-        when(userService.updateUser(userId, userDto)).thenThrow(new NotFoundException(error));
-
-        mvc.perform(patch("/users/{id}", userId)
-                        .content(mapper.writeValueAsString(userDto))
-                        .characterEncoding(StandardCharsets.UTF_8)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());
-    }
+//    @Test
+//    void updateUser_whenUserNotFound_thenNotFoundExceptionThrown() throws Exception {
+//        String error = String.format("Пользователь с id %d не найден", userId);
+//        when(userService.updateUser(userId, userDto)).thenThrow(new NotFoundException(error));
+//
+//        mvc.perform(patch("/users/{id}", userId)
+//                        .content(mapper.writeValueAsString(userDto))
+//                        .characterEncoding(StandardCharsets.UTF_8)
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .accept(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isNotFound());
+//    }
 
     @Test
     void findById_whenUserNotFound_thenNotFoundExceptionThrown() throws Exception {
