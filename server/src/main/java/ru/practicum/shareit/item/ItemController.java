@@ -23,14 +23,12 @@ public class ItemController {
         this.itemService = itemService;
     }
 
-    @ResponseBody
     @PostMapping
     public ResponseEntity<ItemDto> create(@RequestBody ItemDto itemDto, @RequestHeader(OWNER) Long ownerId) {
         log.info("Получен POST-запрос к эндпоинту: '/items' на создание вещи");
         return ResponseEntity.ok(itemService.createItem(itemDto, ownerId));
     }
 
-    @ResponseBody
     @PatchMapping("/{itemId}")
     public ResponseEntity<ItemDto> update(@RequestBody ItemDto itemDto, @PathVariable Long itemId,
                           @RequestHeader(OWNER) Long ownerId) {

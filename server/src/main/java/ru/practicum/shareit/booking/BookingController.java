@@ -23,7 +23,6 @@ public class BookingController {
         this.bookingService = bookingService;
     }
 
-    @ResponseBody
     @PostMapping
     public ResponseEntity<BookingDto> create(@RequestBody BookingInputDto bookingInputDto,
                              @RequestHeader(USER_ID) Long bookerId) {
@@ -32,7 +31,6 @@ public class BookingController {
         return ResponseEntity.ok(bookingService.create(bookingInputDto, bookerId));
     }
 
-    @ResponseBody
     @PatchMapping("/{bookingId}")
     public ResponseEntity<BookingDto> update(@PathVariable Long bookingId,
                              @RequestHeader(USER_ID) Long userId, @RequestParam Boolean approved) {

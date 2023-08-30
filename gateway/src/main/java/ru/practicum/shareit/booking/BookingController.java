@@ -11,6 +11,8 @@ import ru.practicum.shareit.booking.dto.BookingState;
 import ru.practicum.shareit.booking.dto.BookingItemRequestDto;
 
 import static ru.practicum.shareit.validation.ValidationGroups.Create;
+
+import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 
@@ -26,7 +28,7 @@ public class BookingController {
 
     @PostMapping
     public ResponseEntity<Object> bookItem(@RequestHeader(USER_ID) long userId,
-                                           @RequestBody @Validated(Create.class) BookingItemRequestDto requestDto) {
+                                           @RequestBody @Valid @Validated(Create.class) BookingItemRequestDto requestDto) {
         log.info("Получен POST-запрос к эндпоинту: '/bookings' " +
                 "на создание бронирования от пользователя с ID={}", userId);
         return bookingClient.bookItem(userId, requestDto);

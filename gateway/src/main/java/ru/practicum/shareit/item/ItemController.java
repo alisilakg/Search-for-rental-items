@@ -12,8 +12,11 @@ import ru.practicum.shareit.item.dto.ItemRequestDto;
 
 import static ru.practicum.shareit.validation.ValidationGroups.Create;
 import static ru.practicum.shareit.validation.ValidationGroups.Update;
+
+import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
+import java.util.ArrayList;
 
 @Slf4j
 @Controller
@@ -57,6 +60,9 @@ public class ItemController {
                                              @PositiveOrZero @RequestParam(name = "from", defaultValue = "0") Integer from,
                                              @Positive @RequestParam(name = "size", defaultValue = "10") Integer size) {
         log.info("Получен GET-запрос к эндпоинту: '/items/search' на поиск вещи с текстом={}", text);
+        if (text.isBlank()) {
+            return ResponseEntity.ok(new ArrayList<>());
+        }
         return itemClient.searchItem(text, from, size);
     }
 
@@ -70,7 +76,7 @@ public class ItemController {
 
     @PostMapping("/{itemId}/comment")
     public ResponseEntity<Object> createComment(@PathVariable Long itemId, @RequestHeader(USER_ID) Long userId,
-                                                @Validated(Create.class) @RequestBody CommentRequestDto requestDto) {
+                                                @Valid @RequestBody CommentRequestDto requestDto) {
         log.info("Получен POST-запрос к эндпоинту: '/items/comment' на добавление отзыва пользователем с ID={}", userId);
         return itemClient.createComment(itemId, userId, requestDto);
     }

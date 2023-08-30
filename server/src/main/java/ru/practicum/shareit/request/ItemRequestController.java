@@ -24,7 +24,6 @@ public class ItemRequestController {
         this.itemRequestService = itemRequestService;
     }
 
-    @ResponseBody
     @PostMapping
     public ResponseEntity<ItemRequestDto> create(@RequestBody ItemRequestDto itemRequestInputDto, @RequestHeader(OWNER) Long ownerId) {
         log.info("Получен POST-запрос к эндпоинту: '/requests' на создание запроса вещи пользователем с ID={}", ownerId);

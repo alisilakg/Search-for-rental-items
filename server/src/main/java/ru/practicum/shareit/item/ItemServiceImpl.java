@@ -18,7 +18,6 @@ import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.model.Item;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -94,12 +93,10 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public List<ItemDto> getItemsBySearchQuery(String text, int from, int size) {
         PageRequest page = PageRequest.of(from / size, size);
-        if ((text != null) && (!text.isEmpty()) && (!text.isBlank())) {
             text = text.toLowerCase();
-            return itemRepository.getItemsBySearchQuery(text, page).stream()
-                    .map(itemMapper::toItemDto)
-                    .collect(toList());
-        } else return new ArrayList<>();
+        return itemRepository.getItemsBySearchQuery(text, page).stream()
+                .map(itemMapper::toItemDto)
+                .collect(toList());
     }
 
     @Override
