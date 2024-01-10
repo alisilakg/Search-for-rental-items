@@ -1,6 +1,6 @@
 # java-shareit
 
-Сервис для обмена вещами.
+##Сервис для обмена вещами.
 Rest-сервис с использованием Spring Boot, Maven, Hibernate, Lombok, PostgreSQL, H2, Docker, JUnit, Mockito
 
 Сервис дает пользователям возможность:
