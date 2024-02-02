@@ -1,4 +1,4 @@
-# search-for-rental-items
+# search-for-rental-items 
 
 ## Сервис для обмена вещами.
 Rest-сервис с использованием Spring Boot, Maven, Hibernate, Lombok, PostgreSQL, H2, Docker, JUnit, Mockito
